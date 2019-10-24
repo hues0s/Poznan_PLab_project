@@ -15,8 +15,6 @@ public class Main {
 
     public static void main(String [ ] args) throws ParseException {
 
-        System.out.println("Welcome to the PESEL program!");
-
         //command line parser
         Options options = new Options();
         options.addOption("c", false, "console as source");
@@ -47,7 +45,7 @@ public class Main {
                 System.out.println("You have to choose at least one of -c or -f option in order to choose the source");
             }
 
-        }catch (UnrecognizedOptionException uoe){
+        } catch (UnrecognizedOptionException uoe){
             System.err.println(uoe.getMessage());
         }
 
