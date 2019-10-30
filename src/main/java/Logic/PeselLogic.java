@@ -4,6 +4,9 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class PeselLogic {
 
@@ -14,14 +17,14 @@ public class PeselLogic {
         this.source = source;
     }
 
-    public String getPeselNumber(){
-        StringBuilder builder = new StringBuilder();
+    public List<String> getPeselNumbers(){
+        List<String> ret = new ArrayList<String>();
         try( BufferedReader br = new BufferedReader(new InputStreamReader(source))){
-            builder.append(br.readLine());
+            ret = Arrays.asList(br.readLine().split(" "));
         } catch (IOException e) {
             System.err.println(e.getMessage());
         }
-        return builder.toString();
+        return ret;
     }
 
     public boolean checkPeselCorrectness(String peselNumber){
