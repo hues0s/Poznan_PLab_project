@@ -1,6 +1,7 @@
 package Controller;
 
 import Logic.PeselLogic;
+import jdk.internal.util.xml.impl.Input;
 
 import java.io.*;
 import java.util.List;
@@ -9,21 +10,26 @@ import java.util.stream.Collectors;
 
 public class Controller {
 
+
     private PeselLogic peselLogic;
     private static final int MAX_PESEL_NUMBERS_PROCESSED = 30;
 
-    public Controller(InputStream source){
-        this.peselLogic = new PeselLogic(source);
+    public Controller(){
+        this.peselLogic = new PeselLogic();
     }
 
-    public void run(){
+    public boolean run(InputStream source){
+
+        /*
+        It returns true when there is at least one correct PESEL number. False when there isn't.
+         */
 
         System.out.println("Welcome to the PESEL program!");
         System.out.println("WARNING: only 30 PESEL numbers will be processed.");
         System.out.println(".........................................................");
 
         //we get a list of the pesel numbers from the input.
-        List<String> peselNumberList = peselLogic.getPeselNumbers();
+        List<String> peselNumberList = peselLogic.getPeselNumbers(source);
 
         System.out.println("The PESEL numbers introduced are: ");
 
@@ -45,15 +51,13 @@ public class Controller {
         uniquePeselNumberSet.removeIf(peselNumber -> !peselLogic.checkPeselCorrectness(peselNumber));
 
         if(uniquePeselNumberSet.size() == 0)
-            System.out.println("You don't have any correct PESEL numbers.");
+            return false;
         else{
-            System.out.println(".........................................................");
-            System.out.println("The correct PESEL numbers will be written in the file called \"PESEL_number_result.txt\".");
-            System.out.println(".........................................................");
             StringBuilder peselNumberResult = new StringBuilder();
             for(String peselNumber: uniquePeselNumberSet)
                 peselNumberResult.append(peselNumber).append(" ");
             saveToFile("PESEL_number_result", peselNumberResult.toString());
+            return true;
         }
 
     }

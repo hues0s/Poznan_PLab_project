@@ -10,14 +10,9 @@ import java.util.List;
 
 public class PeselLogic {
 
-    private InputStream source;
     private static final int PESEL_NUMBER_LENGTH = 11;
 
-    public PeselLogic(InputStream source){
-        this.source = source;
-    }
-
-    public List<String> getPeselNumbers(){
+    public List<String> getPeselNumbers(InputStream source){
         List<String> ret = new ArrayList<String>();
         try( BufferedReader br = new BufferedReader(new InputStreamReader(source))){
             ret = Arrays.asList(br.readLine().split(" "));
@@ -31,6 +26,8 @@ public class PeselLogic {
 
         if(peselNumber == null || peselNumber.length() != PESEL_NUMBER_LENGTH) return false;
 
+        if(checkIfItHasLetter(peselNumber)) return false;
+
         int sum = 0;
         for(int i = 0; i < PESEL_NUMBER_LENGTH - 1; ++i){
             sum += char2Int(peselNumber.charAt(i)) * getCorrectMultiplier(i);
@@ -39,6 +36,12 @@ public class PeselLogic {
         int lastDigit = char2Int(peselNumber.charAt(PESEL_NUMBER_LENGTH - 1));
 
         return (module == 0) && lastDigit == 0 || lastDigit == 10 - module;
+    }
+
+    private boolean checkIfItHasLetter(String pesel){
+        for(int i = 0; i < pesel.length(); ++i)
+            if(Character.isLetter(pesel.charAt(i))) return true;
+        return false;
     }
 
     private int char2Int(char c){

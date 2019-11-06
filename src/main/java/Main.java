@@ -38,8 +38,16 @@ public class Main {
                 }
             }
             if(cmd.hasOption('c') || cmd.hasOption('f')){
-                Controller controller = new Controller(source);
-                controller.run();
+                Controller controller = new Controller();
+                if(controller.run(source)){
+                    System.out.println(".........................................................");
+                    System.out.println("The correct PESEL numbers will be written in the file called \"PESEL_number_result.txt\".");
+                    System.out.println(".........................................................");
+                }
+                else{
+                    System.out.println("You don't have any correct PESEL numbers.");
+                }
+
             }
             else{
                 System.out.println("You have to choose at least one of -c or -f option in order to choose the source");
