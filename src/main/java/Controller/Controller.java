@@ -44,6 +44,7 @@ public class Controller {
         Set<String> uniquePeselNumberSet;
         uniquePeselNumberSet = peselNumberList
                 .stream()
+                .distinct()
                 .limit(MAX_PESEL_NUMBERS_PROCESSED)
                 .collect(Collectors.toSet());
 

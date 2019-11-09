@@ -35,12 +35,17 @@ public class PeselLogicTest {
         //if the length of the PESEL is > or < than 11, it is not valid
         assertFalse(pl.checkPeselCorrectness("970610000051"));
         assertFalse(pl.checkPeselCorrectness("9706100000"));
+        //correct length
+        assertTrue(pl.checkPeselCorrectness("97061000005"));
     }
 
     @Test
     public void checkPeselNumberWithLetter(){
+        //pesel WITH letter(s)
         assertFalse(pl.checkPeselCorrectness("52090557A62"));
         assertFalse(pl.checkPeselCorrectness("9706P000005"));
+        //pesel WITH NO letter(s)
+        assertTrue(pl.checkPeselCorrectness("97061000005"));
     }
 
 }
